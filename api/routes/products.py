@@ -81,6 +81,7 @@ def get_all_products():
         "image_path": product.image_path,
         "price": product.price,
         "rating": product.rating,
+        "best_seller": product.best_seller,
         "is_favorite": product in user.favorite_products,
         "category": {
             "id": product.category.id,
@@ -112,6 +113,7 @@ def get_top_rated_products():
         "image_path": product.image_path,
         "price": product.price,
         "rating": product.rating,
+        "best_seller": product.best_seller,
         "is_favorite": product in user.favorite_products,
         "category": {
             "id": product.category.id,
@@ -143,6 +145,7 @@ def get_best_seller_products():
         "image_path": product.image_path,
         "price": product.price,
         "rating": product.rating,
+        "best_seller": product.best_seller,
         "is_favorite": product in user.favorite_products,
         "category": {
             "id": product.category.id,
@@ -272,6 +275,7 @@ def search_products():
         "image_path": product.image_path,
         "price": product.price,
         "rating": product.rating,
+        "best_seller": product.best_seller,
         "is_favorite": product in user.favorite_products,
         "category": {
             "id": product.category.id,

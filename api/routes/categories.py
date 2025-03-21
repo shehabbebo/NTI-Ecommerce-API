@@ -28,6 +28,7 @@ def get_all_categories():
                     "price": product.price,
                     "image_path": product.image_path,
                     "rating": product.rating,
+                    "best_seller": product.best_seller,
                     "is_favorite": product in user.favorite_products,
                 } for product in category.products  # Access related products
             ]

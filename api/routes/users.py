@@ -41,7 +41,8 @@ def login():
                 "description": product.description,
                 "price": product.price,
                 "image_path": product.image_path,
-                "rating": product.rating
+                "rating": product.rating,
+                "best_seller": product.best_seller,
             } for product in user.favorite_products
         ]
     }
@@ -195,7 +196,8 @@ def get_user_data():
                 "description": product.description,
                 "price": product.price,
                 "image_path": product.image_path,
-                "rating": product.rating
+                "rating": product.rating,
+                "best_seller": product.best_seller,
             } for product in user.favorite_products
         ]
     }
