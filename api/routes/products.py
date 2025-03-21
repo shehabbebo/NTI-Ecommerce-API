@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from .. import api_bp
-from models import Product, db, User
+from models import Product, db, User, Category
 from .shared_functions import process_image, delete_image
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -15,9 +15,10 @@ def create_product():
     price = request.form.get('price', '')
     rating = request.form.get('rating', '')
     best_seller = request.form.get('best_seller', '0')
+    category_id = request.form.get('category_id', '')
     
-    if not name or not description or not price or not rating:
-        return jsonify({"status": False, "message": "Name, price, rating and description are required"}), 400
+    if not name or not description or not price or not rating or not category_id:
+        return jsonify({"status": False, "message": "Name, price, rating, category_id and description are required"}), 400
 
     # check if price is a valid number
     try:
@@ -36,7 +37,11 @@ def create_product():
         best_seller = int(best_seller)
     except ValueError:
         return jsonify({"status": False, "message": "Best seller must be an integer number"}), 400
-    
+    # check if category_id is a valid number
+    try:
+        category_id = int(category_id)
+    except ValueError:
+        return jsonify({"status": False, "message": "Category id must be an integer number"}), 400
     image_path = None
     if 'image' in request.files:
         file = request.files['image']
@@ -47,8 +52,12 @@ def create_product():
     else:
         return jsonify({"status": False, "message": "Image is required"}), 400
     
+    # check if category exists
+    category = Category.query.get(category_id)
+    if not category:
+        return jsonify({"status": False, "message": "Category not found"}), 404
 
-    product = Product(image_path=image_path, name=name, description=description, price=price, rating=rating, best_seller=best_seller)
+    product = Product(category_id=category_id , image_path=image_path, name=name, description=description, price=price, rating=rating, best_seller=best_seller)
     db.session.add(product)
     db.session.commit()
 
