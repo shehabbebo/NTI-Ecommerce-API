@@ -89,8 +89,8 @@ def get_user_orders():
         return {
             "id": order.id,
             "status": order.status,
-            "order_date": order.order_date.strftime("%Y-%m-%d %H:%M:%S"),
-            "order_change_date": order.order_change_date.strftime("%Y-%m-%d %H:%M:%S"),
+            "order_date": order.order_date,
+            "order_change_date": order.order_change_date,
             "subtotal": order.subtotal,
             "tax": order.tax,
             "shipping": order.shipping,
