@@ -66,6 +66,32 @@ def create_product():
         "message": "product created successfully"
     }), 201
 
+@api_bp.route('/add_to_favorite', methods=['POST'])
+@jwt_required()
+def add_to_favorite():
+    user_id = get_jwt_identity() 
+    user = User.query.get(user_id)  # Get the current logged-in user
+    product_id = request.form.get('product_id', '')
+    
+    if not product_id:
+        return jsonify({"status": False, "message": "Product id is required"}), 400
+    # try parse int
+    try:
+        product_id = int(product_id)
+    except ValueError:
+        return jsonify({"status": False, "message": "Product id must be an integer"}), 400
+
+    product = Product.query.get(product_id)
+    if not product:
+        return jsonify({"status": False, "message": "Product not found"}), 404
+
+    if product in user.favorite_products:
+        return jsonify({"status": False, "message": "Product already in favorites"}), 400
+
+    user.favorite_products.append(product)
+    db.session.commit()
+
+    return jsonify({"status": True, "message": "Product added to favorites"}), 200
 
 @api_bp.route('/products', methods=['GET'])
 @jwt_required()
