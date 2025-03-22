@@ -82,7 +82,11 @@ def get_user_orders():
     # Fetch orders categorized by status
     orders = Order.query.filter_by(user_id=user_id).all()
     if not orders:
-        return jsonify({"status": False, "message": "No orders found"}), 404
+        return jsonify({"status": True,  "orders": {
+            "active": [],
+            "completed": [],
+            "canceled": []
+        }}), 200
 
     def format_order(order):
         """Helper function to format order data."""
